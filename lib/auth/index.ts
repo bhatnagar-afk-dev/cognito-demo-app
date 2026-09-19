@@ -13,4 +13,4 @@ export const logoutUser = provider.logoutUser;
 export const getSignedInUser = provider.getSignedInUser;
 export const getBearerToken = provider.getBearerToken;
 
-export type { AuthUser, AuthProvider } from './types';
+export type { AuthUser, AuthProvider, UserRole } from './types';
