@@ -1,17 +1,23 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+  --border: #d4d4d4;
+  --accent: #171717;
+  --error: #c0392b;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
     --foreground: #ededed;
+    --border: #333333;
+    --accent: #ededed;
   }
 }
 
 html {
   height: 100%;
+  color-scheme: light dark;
 }
 
 html,
@@ -42,8 +48,64 @@ a {
   text-decoration: none;
 }
 
-@media (prefers-color-scheme: dark) {
-  html {
-    color-scheme: dark;
-  }
+.page {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+  max-width: 24rem;
+  margin: 4rem auto;
+  padding: 0 1.5rem;
+  width: 100%;
+}
+
+.actions {
+  display: flex;
+  gap: 0.75rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  width: 100%;
+}
+
+.form input {
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  background: transparent;
+  color: inherit;
+  font-size: 1rem;
+}
+
+.button {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--accent);
+  border-radius: 0.25rem;
+  background: var(--accent);
+  color: var(--background);
+  font-size: 1rem;
+  cursor: pointer;
+  text-align: center;
+}
+
+.button.secondary {
+  background: transparent;
+  color: var(--accent);
+}
+
+.error {
+  color: var(--error);
+}
+
+.token {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  border: 1px solid var(--border);
+  border-radius: 0.25rem;
+  word-break: break-all;
+  font-size: 0.85rem;
 }
