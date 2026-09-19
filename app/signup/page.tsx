@@ -4,11 +4,13 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
 import { confirmRegistration, registerUser } from '@/lib/auth';
+import type { UserRole } from '@/lib/auth';
 
 export default function SignupPage() {
   const router = useRouter();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [role, setRole] = useState<UserRole>('buyer');
   const [code, setCode] = useState('');
   const [step, setStep] = useState<'signup' | 'confirm'>('signup');
   const [error, setError] = useState('');
@@ -17,7 +19,7 @@ export default function SignupPage() {
     e.preventDefault();
     setError('');
     try {
-      await registerUser(email, password);
+      await registerUser(email, password, role);
       setStep('confirm');
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Sign up failed');
@@ -77,6 +79,29 @@ export default function SignupPage() {
           onChange={(e) => setPassword(e.target.value)}
           required
         />
+        <fieldset className="role-select">
+          <legend>I am signing up as a</legend>
+          <label>
+            <input
+              type="radio"
+              name="role"
+              value="buyer"
+              checked={role === 'buyer'}
+              onChange={() => setRole('buyer')}
+            />
+            Buyer
+          </label>
+          <label>
+            <input
+              type="radio"
+              name="role"
+              value="vendor"
+              checked={role === 'vendor'}
+              onChange={() => setRole('vendor')}
+            />
+            Vendor
+          </label>
+        </fieldset>
         {error && <p className="error">{error}</p>}
         <button className="button" type="submit">
           Sign up

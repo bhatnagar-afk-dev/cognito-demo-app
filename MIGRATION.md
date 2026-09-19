@@ -20,7 +20,11 @@ and removing AWS-specific config, not touching any page.
 
 - `lib/auth/types.ts` defines the `AuthProvider` interface: `init`, `registerUser`,
   `confirmRegistration`, `loginUser`, `logoutUser`, `getSignedInUser`,
-  `getBearerToken`.
+  `getBearerToken`. It also defines `UserRole` (`'buyer' | 'vendor'`) and the
+  `AuthUser.role` field — `registerUser` takes a role and `getSignedInUser`
+  returns it. A new provider stores this however it stores user metadata
+  (e.g. a `role` column, a custom claim); it just needs to round-trip through
+  those two functions.
 - `lib/auth/index.ts` picks which provider implementation is active and
   re-exports its functions. This is the **one line** (`const provider: AuthProvider = ...`)
   that selects the provider for the whole app.

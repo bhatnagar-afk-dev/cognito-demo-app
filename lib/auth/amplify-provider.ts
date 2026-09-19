@@ -3,24 +3,32 @@ import {
   autoSignIn,
   confirmSignUp,
   fetchAuthSession,
+  fetchUserAttributes,
   getCurrentUser,
   signIn,
   signOut,
   signUp,
 } from 'aws-amplify/auth';
 import outputs from '@/amplify_outputs.json';
-import type { AuthProvider } from './types';
+import type { AuthProvider, UserRole } from './types';
+
+function toUserRole(value: string | undefined): UserRole | null {
+  return value === 'buyer' || value === 'vendor' ? value : null;
+}
 
 export const amplifyAuthProvider: AuthProvider = {
   init() {
     Amplify.configure(outputs, { ssr: true });
   },
 
-  async registerUser(email, password) {
+  async registerUser(email, password, role) {
     await signUp({
       username: email,
       password,
-      options: { userAttributes: { email }, autoSignIn: true },
+      options: {
+        userAttributes: { email, 'custom:role': role },
+        autoSignIn: true,
+      },
     });
   },
 
@@ -42,7 +50,12 @@ export const amplifyAuthProvider: AuthProvider = {
   async getSignedInUser() {
     try {
       const user = await getCurrentUser();
-      return { userId: user.userId, username: user.username };
+      const attributes = await fetchUserAttributes();
+      return {
+        userId: user.userId,
+        username: user.username,
+        role: toUserRole(attributes['custom:role']),
+      };
     } catch {
       return null;
     }
