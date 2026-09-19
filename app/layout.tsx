@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import ConfigureAmplify from './configure-amplify';
+import ConfigureAuth from './configure-auth';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -11,7 +11,7 @@ export default function RootLayout({ children }: LayoutProps<'/'>) {
   return (
     <html lang="en">
       <body>
-        <ConfigureAmplify />
+        <ConfigureAuth />
         {children}
       </body>
     </html>

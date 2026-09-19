@@ -8,6 +8,10 @@ The backend (a single Cognito User Pool) is defined with [AWS Amplify Gen
 2](https://docs.amplify.aws/nextjs/) in the `amplify/` directory and deployed
 by AWS Amplify Hosting.
 
+All AWS-specific auth code is isolated behind `lib/auth/` (see
+[MIGRATION.md](./MIGRATION.md)) — pages only ever call the provider-agnostic
+functions exported from `@/lib/auth`, never the `aws-amplify` SDK directly.
+
 ## Local development
 
 Start a local Amplify sandbox backend (requires AWS credentials configured via
